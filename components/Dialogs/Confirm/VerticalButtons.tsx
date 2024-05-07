@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button, Colors, Text, TouchableOpacity, View } from 'react-native-ui-lib';
+import { Button, Colors, View } from 'react-native-ui-lib';
 
 import { useUpdate } from './context';
 
@@ -33,6 +33,12 @@ export interface ConfirmDialogVerticalButtonsProps {
      * @default '$textDefault'
      */
     cancelColor?: keyof typeof Colors;
+
+    /**
+     * If true, the buttons will be reversed
+     * @default false
+     */
+    reversed?: boolean;
 }
 
 export const VerticalButtons = ({
@@ -41,6 +47,7 @@ export const VerticalButtons = ({
     confirmText = 'Yes',
     cancelColor = '$textDanger',
     confirmColor = '$textSuccess',
+    reversed = false,
 }: ConfirmDialogVerticalButtonsProps) => {
     const update = useUpdate();
 
@@ -54,16 +61,16 @@ export const VerticalButtons = ({
     return (
         <View gap-s4 marginT-s4>
             <Button
-                label={confirmText}
-                onPress={handleConfirm}
-                backgroundColor={Colors[confirmColor]}
+                label={reversed ? cancelText : confirmText}
+                onPress={reversed ? handleClose : handleConfirm}
+                backgroundColor={reversed ? Colors[cancelColor] : Colors[confirmColor]}
             />
             <Button
-                label={cancelText}
-                onPress={handleClose}
+                label={reversed ? confirmText : cancelText}
+                onPress={reversed ? handleConfirm : handleClose}
                 size="small"
                 link
-                linkColor={Colors[cancelColor]}
+                linkColor={reversed ? Colors[confirmColor] : Colors[cancelColor]}
             />
         </View>
     );
