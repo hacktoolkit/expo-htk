@@ -56,9 +56,11 @@ export function contextBuilder<T>(
 
         const context = React.useMemo(() => ({ ...state, ...value }), [state, value]);
 
-        return React.createElement(DispatchContext.Provider, { value: dispatch }, [
-            React.createElement(Context.Provider, { value: context }, children),
-        ]);
+        return React.createElement(
+            DispatchContext.Provider,
+            { value: dispatch },
+            React.createElement(Context.Provider, { value: context }, children)
+        );
     };
 
     return [Provider, useContext, useDispatch, useUpdate];
