@@ -1,8 +1,10 @@
-import { View } from 'react-native-ui-lib';
-import { AppSettingsContainer } from './Container';
-import { AppSettingsState } from '../types';
-import { AppSettingsEntryFontSize, AppSettingsEntrySwitch } from './Entries';
 import React from 'react';
+
+import { View } from 'react-native-ui-lib';
+
+import { AppSettingsState } from '../types';
+import { AppSettingsContainer } from './Container';
+import { AppSettingsEntryFontSize, AppSettingsEntrySwitch } from './Entries';
 
 export interface AppSettingsProps<TSettings extends Record<string, any>> {
     hook: () => AppSettingsState<TSettings>;
@@ -59,7 +61,7 @@ export function AppSettings<TSettings extends Record<string, any>>({
                         )}
                     </React.Fragment>
                 );
-            },
+            }
         );
         return (
             <AppSettingsContainer key={index.toString()} title={section.title}>

@@ -14,7 +14,9 @@ export function AppSettingsEntryBase({
     return (
         <View row marginH-s2 paddingV-s2 centerV>
             <View flexG>
-                <Text text80M>{title}</Text>
+                <Text text80M $textDefault>
+                    {title}
+                </Text>
                 {description && <Text text90L>{description}</Text>}
             </View>
             <View>{children}</View>

@@ -9,7 +9,12 @@ export function AppSettingsContainer({ title, children }: AppSettingsContainerPr
     return (
         <View>
             {title && (
-                <Text marginH-s4 text90L style={{ textTransform: 'uppercase' }}>
+                <Text
+                    marginH-s4
+                    text90L
+                    $textDefault
+                    style={{ textTransform: 'uppercase' }}
+                >
                     {title}
                 </Text>
             )}

@@ -1,6 +1,7 @@
-import { Colors, Text, TouchableOpacity, View } from 'react-native-ui-lib';
-import { AppSettingsEntryBase, AppSettingsEntryBaseProps } from './Base';
 import { Ionicons } from '@expo/vector-icons';
+import { Colors, Text, TouchableOpacity, View } from 'react-native-ui-lib';
+
+import { AppSettingsEntryBase, type AppSettingsEntryBaseProps } from './Base';
 
 export interface AppSettingsEntryFontSizeProps<TSettings extends Record<string, any>>
     extends Omit<AppSettingsEntryBaseProps, 'children'> {
@@ -32,7 +33,9 @@ export function AppSettingsEntryFontSize<TSettings extends Record<string, any>>(
                         color={Colors.$textPrimary}
                     />
                 </TouchableOpacity>
-                <Text text80M>{value}pt</Text>
+                <Text text80M $textDefault>
+                    {value}pt
+                </Text>
                 <TouchableOpacity onPress={handleIncrement}>
                     <Ionicons
                         name="add-circle-outline"

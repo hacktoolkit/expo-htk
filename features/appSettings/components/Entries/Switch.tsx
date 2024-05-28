@@ -1,4 +1,5 @@
 import { Switch } from 'react-native-ui-lib';
+
 import { AppSettingsEntryBase, AppSettingsEntryBaseProps } from './Base';
 
 export interface AppSettingsEntrySwitchProps<TSettings extends Record<string, any>>

@@ -4,5 +4,5 @@ export type AppSettingsState<TSettings extends Record<string, any>> = TSettings 
 
 export type AppSettingsDispatch<TSettings extends Record<string, any>> = (
     field: keyof TSettings,
-    value: any,
+    value: any
 ) => void;
