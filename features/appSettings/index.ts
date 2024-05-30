@@ -1,4 +1,4 @@
-import { createPersistedMMKVState } from '@htk/states';
+import { createPersistedState } from '@htk/states';
 import { useAtomValue, useSetAtom } from 'jotai/react';
 
 export * from './components';
@@ -28,7 +28,7 @@ export * from './components';
 export function createAppSettings<TSettings extends Record<string, any>>(
     initial: TSettings
 ) {
-    const persistedAtom = createPersistedMMKVState();
+    const persistedAtom = createPersistedState();
 
     const atom = persistedAtom('appSettings', initial);
 

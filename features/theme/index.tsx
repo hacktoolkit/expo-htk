@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { createPersistedMMKVState } from '@htk/states';
+import { createPersistedState } from '@htk/states';
 import { ThemeProvider } from '@react-navigation/native';
 import { useAtomValue, useSetAtom } from 'jotai/react';
 import { Appearance } from 'react-native';
@@ -14,7 +14,7 @@ import {
 
 import { AppSettingsContainer, AppSettingsEntrySwitch } from '../appSettings';
 import { ThemeSettingsButton } from './components/ThemeSettingsButton';
-import { Schemes } from './types';
+import type { Schemes } from './types';
 import { createReactNavigationTheme, createScheme } from './utils';
 
 type ModifiableComponent = 'Text' | 'View' | 'Button';
@@ -45,7 +45,7 @@ export function createTheme({
     spacings,
     componentDefaults,
 }: CreateThemeOptions) {
-    const persistedAtom = createPersistedMMKVState();
+    const persistedAtom = createPersistedState();
 
     const atom = persistedAtom<{ ignoreSystemMode: boolean; scheme: 'light' | 'dark' }>(
         'theme',
