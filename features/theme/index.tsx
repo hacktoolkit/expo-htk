@@ -84,7 +84,7 @@ export function createTheme({
         const setTheme = useSetAtom(atom);
         return (scheme: 'light' | 'dark') => {
             setTheme((prev) => {
-                const next = { ...prev, theme: scheme };
+                const next = { ...prev, scheme };
 
                 if (next.ignoreSystemMode) {
                     Colors.setScheme(scheme as SchemeType);
@@ -98,14 +98,15 @@ export function createTheme({
     }
 
     function useThemeScheme() {
-        const [state, setState] = React.useState<'light' | 'dark'>(defaultScheme);
         const { ignoreSystemMode, scheme } = useAtomValue(atom);
+        const [state, setState] = React.useState<'light' | 'dark'>(scheme);
 
         React.useEffect(() => {
             const systemScheme = Appearance.getColorScheme() as 'light' | 'dark' | null;
-
-            setState(ignoreSystemMode ? scheme : systemScheme ?? defaultScheme);
-        }, [scheme, ignoreSystemMode, defaultScheme]);
+            const initialScheme = ignoreSystemMode ? scheme : systemScheme ?? scheme;
+            Colors.setScheme(initialScheme as SchemeType);
+            setState(initialScheme);
+        }, [scheme, ignoreSystemMode]);
 
         return state;
     }
@@ -114,20 +115,19 @@ export function createTheme({
         const { scheme, ignoreSystemMode } = useAtomValue(atom);
         const [navThemeState, setNavThemeState] = React.useState(
             createReactNavigationTheme(
-                availableSchemes[defaultScheme],
+                availableSchemes[scheme],
                 scheme === 'dark'
             )
         );
 
         React.useEffect(() => {
-            if (scheme !== undefined) {
-                setNavThemeState(
-                    createReactNavigationTheme(
-                        availableSchemes[scheme],
-                        scheme === 'dark'
-                    )
-                );
-            }
+            Colors.setScheme(scheme as SchemeType);
+            setNavThemeState(
+                createReactNavigationTheme(
+                    availableSchemes[scheme],
+                    scheme === 'dark'
+                )
+            );
         }, [scheme, ignoreSystemMode]);
 
         return <ThemeProvider value={navThemeState}>{children}</ThemeProvider>;
