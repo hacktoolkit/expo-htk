@@ -21,6 +21,7 @@ export interface AppSettingsSectionItem<TSettings extends Record<string, any>> {
     component: 'switch' | 'font-size';
     title: string;
     description?: string;
+    onPress: () => void;
 }
 
 export function AppSettings<TSettings extends Record<string, any>>({
