@@ -18,7 +18,7 @@ export function AppSettingsEntrySwitch<TSettings extends Record<string, any>>({
     const handleValueChange = () => dispatch(field, !value);
 
     return (
-        <AppSettingsEntryBase {...props}>
+        <AppSettingsEntryBase {...props} onPress={handleValueChange}>
             <Switch value={value} onValueChange={handleValueChange} />
         </AppSettingsEntryBase>
     );
