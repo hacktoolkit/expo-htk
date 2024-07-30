@@ -58,3 +58,59 @@ export class Observer<
         }
     }
 }
+
+type EntityObservers<
+    Data extends Record<string, any>,
+    Event extends string,
+    Callback extends ObserverCallback<Data, Event>,
+> = Record<string, Record<string, Callback[]>> & { all?: Callback[] };
+
+export class EntityObserver<
+    Data extends Record<string, any>,
+    Event extends string = string,
+    Callback extends ObserverCallback<Data, Event> = ObserverCallback<Data, Event>,
+> {
+    observers: EntityObservers<Data, Event, Callback>;
+
+    constructor(observers: EntityObservers<Data, Event, Callback> = {}) {
+        this.observers = observers;
+    }
+
+    subscribe(entity: string, event: Event, observer: Callback) {
+        if (entity === undefined) {
+            throw new Error('Entity cannot be undefined');
+        }
+
+        if (this.observers[entity] === undefined) {
+            this.observers[entity] = {};
+        }
+
+        if (this.observers[entity][event] === undefined) {
+            this.observers[entity][event] = [];
+        }
+
+        this.observers[entity][event].push(observer);
+
+        return () => this.unsubscribe(entity, event, observer);
+    }
+
+    unsubscribe(entity: string, event: Event, observer: Callback) {
+        if (!(entity in this.observers) || !(event in this.observers[entity])) {
+            return;
+        }
+
+        this.observers[entity][event] = this.observers[entity][event].filter(
+            (x) => x !== observer
+        );
+    }
+
+    notify(entity: string, event: Event, data: Data) {
+        if (this.observers[entity] && this.observers[entity][event]) {
+            this.observers[entity][event].forEach((x) => x(data, event));
+        }
+
+        if (this.observers[entity].all) {
+            this.observers[entity].all.forEach((x) => x(data, event));
+        }
+    }
+}
