@@ -5,6 +5,8 @@ import { View } from 'react-native-ui-lib';
 import { AppSettingsState } from '../types';
 import { AppSettingsContainer } from './Container';
 import { AppSettingsEntryFontSize, AppSettingsEntrySwitch } from './Entries';
+import { AppSettingsEntryModal } from './Entries/FontFamily';
+import { FONT_FAMILY_CHOICES } from '@/constants/general';
 
 export interface AppSettingsProps<TSettings extends Record<string, any>> {
     hook: () => AppSettingsState<TSettings>;
@@ -18,7 +20,7 @@ export interface AppSettingsSection<TSettings extends Record<string, any>> {
 
 export interface AppSettingsSectionItem<TSettings extends Record<string, any>> {
     field: keyof TSettings;
-    component: 'switch' | 'font-size';
+    component: 'switch' | 'font-size' | 'font-family';
     title: string;
     description?: string;
     onPress: () => void;
@@ -48,6 +50,16 @@ export function AppSettings<TSettings extends Record<string, any>>({
                         <AppSettingsEntryFontSize<TSettings>
                             field={field}
                             value={settings[field]}
+                            dispatch={settings.dispatch}
+                            {...item}
+                        />
+                    );
+                } else if (component === 'font-family') {
+                    rendered = (
+                        <AppSettingsEntryModal<TSettings>
+                            field={field}
+                            value={settings[field]}
+                            options={FONT_FAMILY_CHOICES}
                             dispatch={settings.dispatch}
                             {...item}
                         />
