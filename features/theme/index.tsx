@@ -36,6 +36,16 @@ export interface CreateThemeOptions {
     componentDefaults?: Record<ModifiableComponent, Record<string, any>>;
 }
 
+// Utility function to handle color scheme setting logic
+function setColorScheme(scheme: 'light' | 'dark', ignoreSystemMode: boolean) {
+    if (ignoreSystemMode) {
+        Colors.setScheme(scheme as SchemeType);
+    } else {
+        const systemScheme = Appearance.getColorScheme() as 'light' | 'dark' | null;
+        Colors.setScheme(systemScheme || 'default');
+    }
+}
+
 export function createTheme({
     ignoreSystemMode,
     supportDarkMode,
@@ -85,13 +95,7 @@ export function createTheme({
         return (scheme: 'light' | 'dark') => {
             setTheme((prev) => {
                 const next = { ...prev, scheme };
-
-                if (next.ignoreSystemMode) {
-                    Colors.setScheme(scheme as SchemeType);
-                } else {
-                    Colors.setScheme('default');
-                }
-
+                setColorScheme(scheme, next.ignoreSystemMode);
                 return next;
             });
         };
@@ -102,10 +106,8 @@ export function createTheme({
         const [state, setState] = React.useState<'light' | 'dark'>(scheme);
 
         React.useEffect(() => {
-            const systemScheme = Appearance.getColorScheme() as 'light' | 'dark' | null;
-            const initialScheme = ignoreSystemMode ? scheme : systemScheme ?? scheme;
-            Colors.setScheme(initialScheme as SchemeType);
-            setState(initialScheme);
+            setColorScheme(scheme, ignoreSystemMode);
+            setState(scheme);
         }, [scheme, ignoreSystemMode]);
 
         return state;
@@ -121,7 +123,7 @@ export function createTheme({
         );
 
         React.useEffect(() => {
-            Colors.setScheme(scheme as SchemeType);
+            setColorScheme(scheme, ignoreSystemMode);
             setNavThemeState(
                 createReactNavigationTheme(
                     availableSchemes[scheme],
@@ -141,13 +143,7 @@ export function createTheme({
         const dispatch = () => {
             setState((prev) => {
                 const next = { ...prev, ignoreSystemMode: !ignoreSystemMode };
-
-                if (next.ignoreSystemMode) {
-                    Colors.setScheme(prev.scheme || defaultScheme);
-                } else {
-                    Colors.setScheme('default');
-                }
-
+                setColorScheme(prev.scheme || defaultScheme, next.ignoreSystemMode);
                 return next;
             });
         };
