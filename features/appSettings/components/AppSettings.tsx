@@ -22,6 +22,8 @@ export interface AppSettingsSectionItem<TSettings extends Record<string, any>> {
     title: string;
     description?: string;
     options: string[];
+    minimumFontSize: number;
+    maximumFontSize: number;
     onPress: () => void;
 }
 
@@ -33,7 +35,7 @@ export function AppSettings<TSettings extends Record<string, any>>({
 
     const renderSections = sections.map((section, index) => {
         const renderItems = section.items.map(
-            ({ field, component, options, ...item }, index) => {
+            ({ field, component, options, minimumFontSize, maximumFontSize, ...item }, index) => {
                 let rendered = null;
                 if (component === 'switch') {
                     rendered = (
@@ -49,6 +51,8 @@ export function AppSettings<TSettings extends Record<string, any>>({
                         <AppSettingsEntryFontSize<TSettings>
                             field={field}
                             value={settings[field]}
+                            min={minimumFontSize}
+                            max={maximumFontSize}
                             dispatch={settings.dispatch}
                             {...item}
                         />
