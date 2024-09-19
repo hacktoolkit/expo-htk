@@ -8,16 +8,16 @@ export interface AppSettingsEntryFontSizeProps<TSettings extends Record<string, 
     field: keyof TSettings;
     value: number;
     dispatch: (field: keyof TSettings, value: any) => void;
-    min?: number;
-    max?: number;
+    min: number;
+    max: number;
 }
 
 export function AppSettingsEntryFontSize<TSettings extends Record<string, any>>({
     field,
     dispatch,
     value,
-    min = 8,
-    max = 40,
+    min,
+    max,
     ...props
 }: AppSettingsEntryFontSizeProps<TSettings>) {
     const handleDecrement = () => (value > min ? dispatch(field, value - 1) : null);
