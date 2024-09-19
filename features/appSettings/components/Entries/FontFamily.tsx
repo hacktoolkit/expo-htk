@@ -77,6 +77,7 @@ export function AppSettingsModalFontFamily<TSettings extends Record<string, any>
                         {options.map((option, index) => (
                             <TouchableOpacity key={index} onPress={() => handleOptionSelect(option)} style={styles.option}>
                                 <Text style={[styles.optionText, { fontFamily: option }]}>{option}</Text>
+                                {option === value && <Ionicons name="checkmark" size={24} class='text-lame-300' />}
                             </TouchableOpacity>
                         ))}
                     </View>
@@ -126,6 +127,9 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     option: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         borderBottomWidth: 1,
         borderBottomColor: Colors.$textDisabled,
         marginBottom: 5,
