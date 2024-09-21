@@ -3,6 +3,7 @@ import { Modal, TouchableOpacity, Text, Dimensions, View, StyleSheet, TouchableW
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from 'react-native-ui-lib';
 import { AppSettingsEntryBase, type AppSettingsEntryBaseProps } from './Base';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export interface AppSettingsModalFontFamilyProps<TSettings extends Record<string, any>>
     extends Omit<AppSettingsEntryBaseProps, 'children'> {
@@ -72,7 +73,7 @@ export function AppSettingsModalFontFamily<TSettings extends Record<string, any>
                 </TouchableWithoutFeedback>
                 <View style={[styles.modalWrapper, { top: modalPosition.top, left: modalPosition.left }]}>
                     <View style={styles.caret} />
-                    <View style={styles.modalContent}>
+                    <ScrollView style={styles.modalContent}>
                         <Text style={styles.modalTitle}>Select an Option</Text>
                         {options.map((option, index) => (
                             <TouchableOpacity key={index} onPress={() => handleOptionSelect(option)} style={styles.option}>
@@ -80,7 +81,7 @@ export function AppSettingsModalFontFamily<TSettings extends Record<string, any>
                                 {option === value && <Ionicons name="checkmark" size={24} class='text-lame-300' />}
                             </TouchableOpacity>
                         ))}
-                    </View>
+                    </ScrollView>
                 </View>
             </Modal>
         </AppSettingsEntryBase>
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
     },
     modalContent: {
         backgroundColor: Colors.$backgroundDefault,
-        padding: 20,
+        paddingHorizontal: 20,
         borderRadius: 10,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
@@ -107,6 +108,7 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
         elevation: 5,
         width: 250,
+        height: 300,
     },
     caret: {
         position: 'absolute',
@@ -125,6 +127,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         marginBottom: 20,
+        marginTop: 30,
     },
     option: {
         display: 'flex',
