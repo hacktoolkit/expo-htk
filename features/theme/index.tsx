@@ -36,7 +36,6 @@ export interface CreateThemeOptions {
     componentDefaults?: Record<ModifiableComponent, Record<string, any>>;
 }
 
-// Utility function to handle color scheme setting logic
 function setColorScheme(scheme: 'light' | 'dark', ignoreSystemMode: boolean) {
     if (ignoreSystemMode) {
         Colors.setScheme(scheme as SchemeType);
