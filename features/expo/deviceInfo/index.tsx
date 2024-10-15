@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Card, Text, View } from 'react-native-ui-lib';
 
-import { useDeviceInfo } from 'htk/features/expo/ExpoDocs/hooks';
+import { useDeviceInfo } from 'htk/features/expo/deviceInfo/hooks';
 
 import { Dividers } from 'htk/utils/theme';
 
