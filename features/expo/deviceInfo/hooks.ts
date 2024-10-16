@@ -28,51 +28,41 @@ export const useDeviceInfo = () => {
     });
 
     useEffect(() => {
-        const fetchDeviceInfo = async () => {
-            try {
-                let deviceType = null;
-                let uptime = null;
-                let isJailBroken = null;
+        const fetchDeviceInfo = () => {
+            Device.getDeviceTypeAsync().then(deviceType => {
+                setDeviceInfo(prev => ({...prev, deviceType: deviceType ? enumToStr(DeviceType, deviceType) : null}));
+            }).catch(error => {
+                console.error('Failed to fetch device type:', error);
+            });
 
-                try {
-                    deviceType = await Device.getDeviceTypeAsync();
-                } catch (error) {
-                    console.error('Failed to fetch device type:', error);
-                }
+            Device.getUptimeAsync().then(uptime => {
+                setDeviceInfo(prev => ({...prev, uptime: uptime ? DateTime.fromMillis(uptime).toFormat('hh:mm:ss') : null}));
+            }).catch(error => {
+                console.error('Failed to fetch uptime:', error);
+            });
 
-                try {
-                    uptime = await Device.getUptimeAsync();
-                } catch (error) {
-                    console.error('Failed to fetch uptime:', error);
-                }
+            Device.isRootedExperimentalAsync().then(isJailBroken => {
+                setDeviceInfo(prev => ({...prev, isJailBroken}));
+            }).catch(error => {
+                console.error('Failed to check if device is rooted:', error);
+            });
 
-                try {
-                    isJailBroken = await Device.isRootedExperimentalAsync();
-                } catch (error) {
-                    console.error('Failed to check if device is rooted:', error);
-                }
-
-                setDeviceInfo({
-                    brand: Device.brand,
-                    manufacturer: Device.manufacturer,
-                    deviceName: Device.deviceName,
-                    modelId: Device.modelId,
-                    modelName: Device.modelName,
-                    osName: Device.osName,
-                    osVersion: Device.osVersion,
-                    osBuildId: Device.osBuildId,
-                    osInternalBuildId: Device.osInternalBuildId,
-                    deviceType: deviceType ? enumToStr(DeviceType, deviceType) : null,
-                    deviceYearClass: Device.deviceYearClass,
-                    isDevice: Device.isDevice,
-                    supportedCpuArchitectures: Device.supportedCpuArchitectures,
-                    totalMemory: Device.totalMemory,
-                    uptime: uptime ? DateTime.fromMillis(uptime).toFormat('hh:mm:ss') : null,
-                    isJailBroken,
-                });
-            } catch (error) {
-                console.error('Failed to fetch device info:', error);
-            }
+            setDeviceInfo(prev => ({
+                ...prev,
+                brand: Device.brand,
+                manufacturer: Device.manufacturer,
+                deviceName: Device.deviceName,
+                modelId: Device.modelId,
+                modelName: Device.modelName,
+                osName: Device.osName,
+                osVersion: Device.osVersion,
+                osBuildId: Device.osBuildId,
+                osInternalBuildId: Device.osInternalBuildId,
+                deviceYearClass: Device.deviceYearClass,
+                isDevice: Device.isDevice,
+                supportedCpuArchitectures: Device.supportedCpuArchitectures,
+                totalMemory: Device.totalMemory,
+            }));
         };
 
         fetchDeviceInfo();
