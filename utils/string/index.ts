@@ -5,4 +5,3 @@ export function capitalize(name: string): string {
 export function snakeCaseToCapitalize(name: string): string {
     return name.split('_').map(capitalize).join(' ');
 }
-
