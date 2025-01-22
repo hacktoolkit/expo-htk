@@ -1,7 +1,7 @@
 import { Kysely } from 'kysely';
 import { QueryClient } from '@tanstack/react-query';
 import { BaseEndpoint, BaseRecord, BaseTable, CreateParams, DataWithSyncStatus, Event, ObserverData, UpdateParams } from './types';
-import { EntityObserver } from '../utils/observer';
+import { EntityObserver } from '@htk/utils/observer';
 import { RecordID } from './types';
 
 // Create a shared queryClient instance

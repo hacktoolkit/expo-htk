@@ -1,17 +1,18 @@
 import { BaseEndpoint, BaseRecord, BaseTable } from './types';
 import { SQLiteDataProvider } from './provider';
-import { Database } from './db';
 
-// Add type intersection to ensure Database has string index signature
-type DatabaseWithIndex = Database & Record<string, BaseTable>;
+// Generic database type that extends BaseTable
+export interface GenericDatabase {
+    [key: string]: BaseTable;
+}
 
-export class SQLiteDataProviderV2<T extends BaseRecord> extends SQLiteDataProvider<T, DatabaseWithIndex> {
+export class SQLiteDataProviderV2<T extends BaseRecord, DB extends GenericDatabase = GenericDatabase> extends SQLiteDataProvider<T, DB> {
     constructor(
-        entity: keyof Database,
+        entity: keyof DB,
         endpoint: BaseEndpoint<T>,
-        queryKey: string
+        queryKey: string,
+        db: any  // The actual database instance will be passed in
     ) {
-        const { db } = require('../db');
         super(db, entity, endpoint, queryKey);
     }
 }

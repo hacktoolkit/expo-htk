@@ -1,3 +1,5 @@
+import { Selectable } from 'kysely';
+
 export type RecordID = string;
 
 export interface BaseTable {
@@ -12,8 +14,12 @@ export interface BaseTable {
 
 export interface BaseRecord {
     ulid: string;
-    createdAt: number;
-    updatedAt: number;
+    parent_ulid?: string;
+    data: string;
+    timestamp: number;
+    is_dirty: number;
+    is_deleted: number;
+    last_synced_at: number | null;
 }
 
 export interface BaseEndpoint<T> {
@@ -55,3 +61,9 @@ export type Event =
     | 'deleteLocal'
     | 'synced'
     | 'deletedSynced';
+
+export type BaseTableRecord = Selectable<BaseTable>;
+
+export interface BaseDatabase {
+    [key: string]: BaseTable;
+}

@@ -1,4 +1,4 @@
+export { SQLiteDataProvider } from './provider';
 export * from './types';
-export * from './provider';
 export * from './config';
-export * from './provider-v2';
+export * from './base-provider';
