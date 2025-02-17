@@ -156,23 +156,25 @@ export function createTheme({
 
         return (
             <AppSettingsContainer title="Theme">
-                <View row gap-s2 padding-s2>
-                    {Object.entries(availableSchemes).map(([name, themeScheme]) => (
-                        <ThemeSettingsButton
-                            key={name}
-                            name={name as 'light' | 'dark'}
-                            theme={themeScheme}
-                            isActive={scheme === name}
-                            onPress={changeTheme}
-                        />
-                    ))}
-                </View>
                 <AppSettingsEntrySwitch
                     field="ignoreSystemMode"
-                    title="Ignore system mode?"
+                    title="Override system theme?"
                     value={ignoreSystemMode}
                     dispatch={dispatch}
                 />
+                {ignoreSystemMode && (
+                    <View row gap-s2 padding-s2>
+                        {Object.entries(availableSchemes).map(([name, themeScheme]) => (
+                            <ThemeSettingsButton
+                                key={name}
+                                name={name as 'light' | 'dark'}
+                                theme={themeScheme}
+                                isActive={scheme === name}
+                                onPress={changeTheme}
+                            />
+                        ))}
+                    </View>
+                )}
             </AppSettingsContainer>
         );
     }
