@@ -13,12 +13,13 @@ export function AppSettingsContainer({ title, children }: AppSettingsContainerPr
                     marginH-s4
                     text90L
                     $textDefault
+                    marginB-s1
                     style={{ textTransform: 'uppercase' }}
                 >
                     {title}
                 </Text>
             )}
-            <Card marginH-s2 enableShadow={false}>
+            <Card marginH-s2 enableShadow={false} marginB-s6>
                 {children}
                 <View height={1} bg-$backgroundNeutral />
             </Card>
