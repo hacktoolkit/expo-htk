@@ -46,16 +46,19 @@ export function haversineDistanceMeters(
  * Calculates the centroid (geometric center) of a set of geographical coordinates.
  * Uses a cartesian average method converted back to lat/long coordinates.
  * This provides a reasonable approximation for most use cases where points are relatively close together.
+ * Returns null for empty arrays.
  *
- * @param trackPoints - Non-empty array of track points with lat/long coordinates
- * @returns ICoordinates containing the centroid's latitude and longitude
+ * @param trackPoints - Array of track points with lat/long coordinates
+ * @returns ICoordinates containing the centroid's latitude and longitude, or null if array is empty
  */
 export function calculate_centroid(
-    trackPoints: readonly IGeolocationFormData[] & { readonly 0: IGeolocationFormData }
-): ICoordinates {
-    let coordinates: ICoordinates;
+    trackPoints: readonly IGeolocationFormData[]
+): ICoordinates | null {
+    let coordinates: ICoordinates | null;
 
-    if (trackPoints.length === 1) {
+    if (trackPoints.length === 0) {
+        coordinates = null;
+    } else if (trackPoints.length === 1) {
         coordinates = {
             latitude: trackPoints[0].latitude,
             longitude: trackPoints[0].longitude,
