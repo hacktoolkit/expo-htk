@@ -144,21 +144,20 @@ export const reverseGeocode = async (
  * @returns Promise with location context data or null if geocoding fails
  *
  * @example
- * ```typescript
  * const context = await reverseGeocodeWithContext({ latitude: 37.7749, longitude: -122.4194 });
- * // Returns:
- * // {
- * //   country: 'United States',
- * //   country_short: 'US',
- * //   district: 'San Francisco County',
- * //   neighborhood: 'South of Market',
- * //   place: 'San Francisco',
- * //   place_name: '1818 Noriega St, San Francisco, California 94102, United States',
- * //   postcode: '94102',
- * //   region: 'California',
- * //   region_short: 'US-CA'
- * // }
- * ```
+ *
+ * Returns:
+ * {
+ *   country: 'United States',
+ *   country_short: 'US',
+ *   district: 'San Francisco County',
+ *   neighborhood: 'South of Market',
+ *   place: 'San Francisco',
+ *   place_name: '1818 Noriega St, San Francisco, California 94102, United States',
+ *   postcode: '94102',
+ *   region: 'California',
+ *   region_short: 'US-CA'
+ * }
  */
 export const reverseGeocodeWithContext = async (
     coordinates: ICoordinates
