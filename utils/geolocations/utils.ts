@@ -1,11 +1,5 @@
-import { IGeolocationFormData } from '@baws-api';
-
-import { EARTH_RADIUS_METERS } from './constants';
-
-export interface ICoordinates {
-    latitude: number;
-    longitude: number;
-}
+import { EARTH_RADIUS_METERS } from '@htk/constants';
+import { ICoordinates } from '@htk/types/geolocation';
 
 /**
  * Calculates the great-circle distance between two points on a sphere using the Haversine formula.
@@ -51,9 +45,7 @@ export function haversineDistanceMeters(
  * @param trackPoints - Array of track points with lat/long coordinates
  * @returns ICoordinates containing the centroid's latitude and longitude, or null if array is empty
  */
-export function calculate_centroid(
-    trackPoints: readonly IGeolocationFormData[]
-): ICoordinates | null {
+export function calculate_centroid(trackPoints: ICoordinates[]): ICoordinates | null {
     let coordinates: ICoordinates | null;
 
     if (trackPoints.length === 0) {
