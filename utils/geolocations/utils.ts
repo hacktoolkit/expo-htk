@@ -1,5 +1,7 @@
-import { EARTH_RADIUS_METERS } from '@htk/constants';
-import { ICoordinates } from '@htk/types/geolocation';
+import { EARTH_RADIUS_METERS, MAPBOX_ACCESS_TOKEN } from '@htk/constants';
+import { ICoordinates, IMapboxFeature } from '@htk/types/geolocation';
+import { rollbarNative } from '@htk/utils/rollbar';
+import axios from 'axios';
 
 /**
  * Calculates the great-circle distance between two points on a sphere using the Haversine formula.
@@ -91,3 +93,40 @@ export function calculate_centroid(trackPoints: ICoordinates[]): ICoordinates | 
 
     return coordinates;
 }
+
+/**
+ * Reverse geocodes coordinates using Mapbox's Geocoding API and returns the raw feature object
+ * @param location - The coordinates to reverse geocode
+ * @returns Promise with the raw Mapbox feature object, or null if no results found or if access token is missing
+ *
+ * Returns the first (most accurate) feature from Mapbox's reverse geocoding response.
+ * The raw feature contains detailed location information that can be parsed as needed.
+ * If the Mapbox access token is not configured, logs to Rollbar and returns null.
+ */
+export const reverseGeocode = async (
+    location: ICoordinates
+): Promise<IMapboxFeature | null> => {
+    let result: IMapboxFeature | null = null;
+
+    if (MAPBOX_ACCESS_TOKEN) {
+        try {
+            const response = await axios.get<{ features: IMapboxFeature[] }>(
+                `https://api.mapbox.com/geocoding/v5/mapbox.places/${location.longitude},${location.latitude}.json?access_token=${MAPBOX_ACCESS_TOKEN}`
+            );
+            result = response.data.features[0] || null;
+        } catch (error) {
+            rollbarNative.error('Reverse geocoding failed', {
+                error,
+                where: 'reverseGeocode',
+                coordinates: location,
+            });
+        }
+    } else {
+        rollbarNative.error('Mapbox access token is not configured', {
+            where: 'reverseGeocode',
+            coordinates: location,
+        });
+    }
+
+    return result;
+};
