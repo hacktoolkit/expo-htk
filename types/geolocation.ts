@@ -4,9 +4,9 @@ export interface ICoordinates {
 }
 
 /**
- * Interface for Mapbox Geocoding API feature response
+ * Interface for MapBox Geocoding API feature response
  */
-export interface IMapboxFeature {
+export interface IMapBoxFeature {
     id: string;
     type: string;
     place_type: string[];
@@ -25,4 +25,20 @@ export interface IMapboxFeature {
         wikidata?: string;
         short_code?: string;
     }>;
+}
+
+/**
+ * Interface for MapBox location context data
+ */
+export interface IMapBoxLocationContext {
+    country?: string;
+    country_short?: string;
+    district?: string;
+    neighborhood?: string;
+    place?: string;
+    place_name?: string;
+    postcode?: string;
+    region?: string;
+    region_short?: string;
+    [key: string]: string | undefined;
 }
