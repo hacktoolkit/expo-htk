@@ -40,5 +40,6 @@ export interface IMapBoxLocationContext {
     postcode?: string;
     region?: string;
     region_short?: string;
+    // Allow dynamic keys for additional Mapbox context fields not explicitly typed
     [key: string]: string | undefined;
 }
