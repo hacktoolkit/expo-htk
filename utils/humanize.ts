@@ -2,7 +2,6 @@ import Humanize from 'humanize-plus';
 
 /**
  * Humanizes large numbers by converting them to a more readable format with suffixes
- * TODO: move to bawshuman-js-common or expo-htk.
  * @param value The number to format
  * @param decimals Number of decimal places to show
  * @returns Formatted string like '1.2 M' or '123,456'
