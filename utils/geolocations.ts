@@ -1,4 +1,4 @@
-import { EARTH_RADIUS_METERS, MAPBOX_ACCESS_TOKEN } from '@htk/constants';
+import { MAPBOX_ACCESS_TOKEN, WGS84_A, WGS84_B } from '@htk/constants';
 import {
     ICoordinates,
     IMapBoxFeature,
@@ -8,12 +8,33 @@ import { rollbarNative } from '@htk/utils/rollbar';
 import axios from 'axios';
 
 /**
- * Calculates the great-circle distance between two points on a sphere using the Haversine formula.
- * This provides the shortest distance over the earth's surface between two points.
- * The formula accounts for the earth's spherical shape and is accurate for most practical purposes.
+ * Calculates the Earth's radius at a given latitude using the WGS84 ellipsoid model.
+ * This provides a more accurate radius than using a constant value, as the Earth is not a perfect sphere.
  *
- * Note: This calculation assumes a spherical Earth, which is accurate enough for most applications
- * (error margin < 0.3% due to Earth's actual ellipsoidal shape).
+ * @param lat - Latitude in radians
+ * @returns Earth's radius in meters at the given latitude
+ */
+function wgs84EarthRadius(lat: number): number {
+    const a = WGS84_A;
+    const b = WGS84_B;
+    const cosLat = Math.cos(lat);
+    const sinLat = Math.sin(lat);
+
+    // Calculate radius of curvature in the prime vertical
+    const N = (a * a) / Math.sqrt(a * a * cosLat * cosLat + b * b * sinLat * sinLat);
+
+    // Calculate radius of curvature in the meridian
+    const M =
+        (a * b * b) / Math.pow(a * a * cosLat * cosLat + b * b * sinLat * sinLat, 1.5);
+
+    // Return the average radius at this latitude
+    return Math.sqrt(M * N);
+}
+
+/**
+ * Calculates the great-circle distance between two points on a sphere using the Haversine formula.
+ * This implementation uses the WGS84 ellipsoid model for improved accuracy at different latitudes.
+ * The formula accounts for the Earth's ellipsoidal shape and is accurate for most practical purposes.
  *
  * @param lat1 - Latitude of the first point in decimal degrees
  * @param lon1 - Longitude of the first point in decimal degrees
@@ -27,12 +48,17 @@ export function haversineDistanceMeters(
     lat2: number,
     lon2: number
 ): number {
-    const R = EARTH_RADIUS_METERS;
+    // Convert decimal degrees to radians
     const φ1 = (lat1 * Math.PI) / 180;
     const φ2 = (lat2 * Math.PI) / 180;
     const Δφ = ((lat2 - lat1) * Math.PI) / 180;
     const Δλ = ((lon2 - lon1) * Math.PI) / 180;
 
+    // Calculate the average latitude for radius calculation
+    const avgLat = (φ1 + φ2) / 2;
+    const R = wgs84EarthRadius(avgLat);
+
+    // Haversine formula
     const a =
         Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
         Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
