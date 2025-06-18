@@ -1,4 +1,3 @@
-import { IGeolocationFormData } from '@baws-api';
 import { MAPBOX_ACCESS_TOKEN, WGS84_A, WGS84_B } from '@htk/constants';
 import {
     ICoordinates,
