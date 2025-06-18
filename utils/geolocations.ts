@@ -51,7 +51,7 @@ export function haversineDistanceMeters(
  * @param trackPoints - Array of track points with lat/long coordinates
  * @returns ICoordinates containing the centroid's latitude and longitude, or null if array is empty
  */
-export function calculate_centroid(trackPoints: ICoordinates[]): ICoordinates | null {
+export function calculateCentroid(trackPoints: ICoordinates[]): ICoordinates | null {
     let coordinates: ICoordinates | null;
 
     if (trackPoints.length === 0) {
