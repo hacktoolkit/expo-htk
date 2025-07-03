@@ -105,12 +105,14 @@ export class EntityObserver<
     }
 
     notify(entity: string, event: Event, data: Data) {
-        if (this.observers[entity] && this.observers[entity][event]) {
-            this.observers[entity][event].forEach((x) => x(data, event));
-        }
-
-        if (this.observers.all) {
-            this.observers.all.forEach((x) => x(data, event));
+        const observerEntity = this.observers[entity];
+        if (observerEntity) {
+            if (observerEntity[event]) {
+                observerEntity[event].forEach((x) => x(data, event));
+            }
+            if (observerEntity.all) {
+                observerEntity.all.forEach((x) => x(data, event));
+            }
         }
     }
 }
