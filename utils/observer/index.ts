@@ -109,7 +109,7 @@ export class EntityObserver<
             this.observers[entity][event].forEach((x) => x(data, event));
         }
 
-        if (this.observers[entity].all) {
+        if (this.observers[entity]?.all) {
             this.observers[entity].all.forEach((x) => x(data, event));
         }
     }
