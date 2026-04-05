@@ -2,6 +2,8 @@ import { MMKV, type MMKVConfiguration } from 'react-native-mmkv';
 
 /**
  * Creates an instance of MMKV state storage with optional configuration.
+ * Lazy-initializes MMKV to avoid crashes during module loading.
+ * Falls back to in-memory storage if MMKV is unavailable (e.g. remote debugger).
  *
  * @param  configuration - Optional MMKV configuration.
  * @returns An object with methods to interact with MMKV storage.
@@ -19,20 +21,44 @@ import { MMKV, type MMKVConfiguration } from 'react-native-mmkv';
  * storage.clearAll();
  */
 export function createMMVKStateStorage(configuration?: MMKVConfiguration) {
-    const storage = new MMKV(configuration);
+    let storage: MMKV | null = null;
+    let initFailed = false;
+    const fallback = new Map<string, string>();
+
+    function getStorage(): MMKV | null {
+        if (initFailed) return null;
+        if (!storage) {
+            try {
+                storage = new MMKV(configuration);
+            } catch (e) {
+                console.warn('[MMKV] Failed to initialize, using in-memory fallback:', e);
+                initFailed = true;
+                return null;
+            }
+        }
+        return storage;
+    }
 
     return {
         getItem: (key: string): string | null => {
-            return storage.getString(key) ?? null;
+            const s = getStorage();
+            if (s) return s.getString(key) ?? null;
+            return fallback.get(key) ?? null;
         },
         setItem: (key: string, value: string): void => {
-            storage.set(key, value);
+            const s = getStorage();
+            if (s) s.set(key, value);
+            else fallback.set(key, value);
         },
         removeItem: (key: string): void => {
-            storage.delete(key);
+            const s = getStorage();
+            if (s) s.delete(key);
+            else fallback.delete(key);
         },
         clearAll: (): void => {
-            storage.clearAll();
+            const s = getStorage();
+            if (s) s.clearAll();
+            else fallback.clear();
         },
     };
 }
