@@ -1,0 +1,102 @@
+site_name: Expo HTK
+site_description: Comprehensive React Native/Expo toolkit with reusable components, utilities, and features
+site_url: https://hacktoolkit.github.io/expo-htk/
+repo_url: https://github.com/hacktoolkit/expo-htk
+repo_name: hacktoolkit/expo-htk
+edit_uri: edit/master/
+
+theme:
+  name: material
+  logo: https://www.hacktoolkit.com/logo.png
+  favicon: https://www.hacktoolkit.com/favicon.ico
+  palette:
+    - scheme: default
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/lightbulb-outline
+        name: Switch to dark mode
+    - scheme: slate
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/lightbulb
+        name: Switch to light mode
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.expand
+    - navigation.indexes
+    - navigation.sections
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.tabs.link
+    - toc.follow
+
+plugins:
+  - search:
+      lang: en
+
+markdown_extensions:
+  - pymdownx.highlight:
+      use_pygments: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:pymdownx.emoji.twemoji
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Components:
+    - Overview: components/index.md
+    - Dialogs:
+      - Overview: components/dialogs/index.md
+      - Confirm Dialog: components/dialogs/confirm.md
+  - Features:
+    - Overview: features/index.md
+    - App Settings:
+      - Overview: features/appsettings/index.md
+      - Components:
+        - Overview: features/appsettings/components/index.md
+        - Entry Types: features/appsettings/components/entries.md
+    - Theme System:
+      - Overview: features/theme/index.md
+      - Components: features/theme/components.md
+    - Device Info:
+      - Overview: features/expo/deviceinfo.md
+  - Utilities:
+    - Overview: utils/index.md
+    - String Utilities: utils/string.md
+    - Enum Utilities: utils/enum.md
+    - Observer Pattern: utils/observer.md
+    - React Context Builder: utils/react.md
+    - Theme Utilities: utils/theme.md
+    - Humanization: utils/humanize.md
+    - Geolocation: utils/geolocation.md
+  - Storages:
+    - Overview: storages/index.md
+    - MMKV Storage: storages/mmkv.md
+    - localStorage: storages/localstorage.md
+  - States:
+    - Overview: states/index.md
+  - Types:
+    - Overview: types/index.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/YosefAshenafi/expo-htk
+      name: GitHub Repository
+  version:
+    provider: mike
+    default: latest
+
+copyright: Copyright &copy; 2024 Hacktoolkit HTK

@@ -96,7 +96,6 @@ export interface ButtonProps {
   * Called when button pressed
   */
   onPress?: () => void;
-
 }
 ```
 
@@ -155,7 +154,6 @@ export interface ButtonProps {
   * Called when button is pressed.
   */
   onPress?: () => void;
-
 }
 ```
 
@@ -204,8 +202,7 @@ export function ThemedComponent(props: Props) {
   Theme-aware component
 </Text>
     </View>
-  );
-
+);
 }
 ```
 
@@ -271,6 +268,8 @@ When creating a new component:
 ### Optional
 - `@react-navigation/native` - Navigation integration
 
+## Related Documentation
+
 ### Child Components
 - **Dialogs**: [`Dialogs/README.md`](Dialogs/README.md) - Dialog components
 
@@ -301,16 +300,15 @@ export function MyProvider(props: MyComponentProps) {
     <MyContext.Provider value={state}>
       {props.children}
     </MyContext.Provider>
-  );
-
+);
 }
+
 export function useMyComponent() {
   const context = React.useContext(MyContext);
   if (!context) {
     throw new Error('useMyComponent must be used within MyProvider');
   }
 return context;
-
 }
 ```
 
@@ -318,16 +316,16 @@ return context;
 ```typescript
 export function Container(props: ContainerProps) {
   return <View>{props.children}</View>;
-
 }
+
 export function Header(props: HeaderProps) {
   return <View>{props.children}</View>;
-
 }
+
 export function Content(props: ContentProps) {
   return <View>{props.children}</View>;
-
 }
+
 // Usage:
 <Container>
   <Container.Header>Title</Container.Header>
